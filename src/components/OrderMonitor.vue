@@ -6,22 +6,48 @@
       <thead>
         <tr>
           <th>Order ID</th>
-          <th>Status</th>
+          <th>
+            Status
+            <div class="filter-container">
+              <select v-model="statusFilter" @change="filterStatus">
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="shipped">Shipped</option>
+                <!-- Add more options as needed -->
+              </select>
+              <i class="fas fa-caret-down"></i>
+            </div>
+          </th>
           <th>Assignee</th>
           <th>Category</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="order in orders" :key="order.id">
+        <tr v-for="order in filteredOrders" :key="order.id">
           <td>{{ order.id }}</td>
-          <td :style="{ color: order.status === 'pending' ? 'red' :order.status === 'shipped' ?'green':order.status === 'Customer Care' ?'blue': '',
-            width:'100px'}">
-           {{order.status}}
+          <td
+            :style="{
+              color:
+                order.status === 'pending'
+                  ? 'red'
+                  : order.status === 'shipped'
+                  ? 'green'
+                  : order.status === 'Customer Care'
+                  ? 'blue'
+                  : '',
+              width: '100px',
+            }"
+          >
+            {{ order.status }}
           </td>
           <td>
             <select v-model="order.assignee" style="width: 100px">
-              <option v-for="assignee in assignees" :key="assignee" :value="assignee">
+              <option
+                v-for="assignee in assignees"
+                :key="assignee"
+                :value="assignee"
+              >
                 {{ assignee }}
               </option>
             </select>
@@ -41,22 +67,92 @@ export default {
   name: "OrderMonitoringApp",
   data() {
     return {
+        statusFilter:'all',
       orders: [
-        { id: 1, status: "pending", assignee: "John", category: "Clothing & Jewelry" },
-        { id: 2, status: "pending", assignee: "Jane", category: "Clothing & Jewelry" },
-        { id: 3, status: "shipped", assignee: "Alex", category: "Clothing & Jewelry" },
-        { id: 4, status: "pending", assignee: "Emma", category: "Clothing & Jewelry" },
-        { id: 5, status: "Customer Care", assignee: "Tom", category: "Clothing & Jewelry" },
-        { id: 6, status: "pending", assignee: "Lucy", category: "Clothing & Jewelry" },
-        { id: 7, status: "pending", assignee: "Mark", category: "Clothing & Jewelry" },
-        { id: 8, status: "Shipped", assignee: "Sophia", category: "Clothing & Jewelry" },
-        { id: 9, status: "pending", assignee: "Liam", category: "Clothing & Jewelry" },
-        { id: 10, status: "pending", assignee: "Mia", category: "Clothing & Jewelry" },
+        {
+          id: 1,
+          status: "pending",
+          assignee: "John",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 2,
+          status: "pending",
+          assignee: "Jane",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 3,
+          status: "shipped",
+          assignee: "Alex",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 4,
+          status: "pending",
+          assignee: "Emma",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 5,
+          status: "Customer Care",
+          assignee: "Tom",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 6,
+          status: "pending",
+          assignee: "Lucy",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 7,
+          status: "pending",
+          assignee: "Mark",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 8,
+          status: "Shipped",
+          assignee: "Sophia",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 9,
+          status: "pending",
+          assignee: "Liam",
+          category: "Clothing & Jewelry",
+        },
+        {
+          id: 10,
+          status: "pending",
+          assignee: "Mia",
+          category: "Clothing & Jewelry",
+        },
       ],
       statuses: ["pending", "shipped", "delivered", "cancelled"],
-      assignees: ["John", "Jane", "Alex", "Emma", "Tom", "Lucy", "Mark", "Sophia", "Liam", "Mia"]
+      assignees: [
+        "John",
+        "Jane",
+        "Alex",
+        "Emma",
+        "Tom",
+        "Lucy",
+        "Mark",
+        "Sophia",
+        "Liam",
+        "Mia",
+      ],
     };
-  }
+  },
+  computed: {
+    filteredOrders() {
+      if (this.statusFilter === 'all') {
+        return this.orders;
+      }
+      return this.orders.filter(order => order.status === this.statusFilter);
+    },
+  },
 };
 </script>
 
@@ -111,7 +207,8 @@ table {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
@@ -127,8 +224,9 @@ td select {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-pending-status{
-background-color:red;
+
+pending-status {
+  background-color: red;
 }
 
 button {
@@ -148,6 +246,4 @@ button:disabled {
   background-color: #ddd;
   cursor: not-allowed;
 }
-
-
 </style>
