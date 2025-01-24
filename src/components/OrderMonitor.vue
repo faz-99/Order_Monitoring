@@ -15,12 +15,9 @@
       <tbody>
         <tr v-for="order in orders" :key="order.id">
           <td>{{ order.id }}</td>
-          <td>
-            <select v-model="order.status" style="width: 100px">
-              <option v-for="status in statuses" :key="status" :value="status">
-                {{ status }}
-              </option>
-            </select>
+          <td :style="{ color: order.status === 'pending' ? 'red' :order.status === 'shipped' ?'green':order.status === 'Customer Care' ?'blue': '',
+            width:'100px'}">
+           {{order.status}}
           </td>
           <td>
             <select v-model="order.assignee" style="width: 100px">
@@ -47,12 +44,12 @@ export default {
       orders: [
         { id: 1, status: "pending", assignee: "John", category: "Clothing & Jewelry" },
         { id: 2, status: "pending", assignee: "Jane", category: "Clothing & Jewelry" },
-        { id: 3, status: "pending", assignee: "Alex", category: "Clothing & Jewelry" },
+        { id: 3, status: "shipped", assignee: "Alex", category: "Clothing & Jewelry" },
         { id: 4, status: "pending", assignee: "Emma", category: "Clothing & Jewelry" },
-        { id: 5, status: "pending", assignee: "Tom", category: "Clothing & Jewelry" },
+        { id: 5, status: "Customer Care", assignee: "Tom", category: "Clothing & Jewelry" },
         { id: 6, status: "pending", assignee: "Lucy", category: "Clothing & Jewelry" },
         { id: 7, status: "pending", assignee: "Mark", category: "Clothing & Jewelry" },
-        { id: 8, status: "pending", assignee: "Sophia", category: "Clothing & Jewelry" },
+        { id: 8, status: "Shipped", assignee: "Sophia", category: "Clothing & Jewelry" },
         { id: 9, status: "pending", assignee: "Liam", category: "Clothing & Jewelry" },
         { id: 10, status: "pending", assignee: "Mia", category: "Clothing & Jewelry" },
       ],
@@ -129,6 +126,9 @@ td select {
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
+}
+pending-status{
+background-color:red;
 }
 
 button {
